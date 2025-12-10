@@ -1,0 +1,12 @@
+name: ListAnalysis
+title: ListAnalysis
+username: richmondfc
+account: richmondfc
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 14770609
+bundleId: 11233467
+url: https://richmondfc.shinyapps.io/ListAnalysis/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
