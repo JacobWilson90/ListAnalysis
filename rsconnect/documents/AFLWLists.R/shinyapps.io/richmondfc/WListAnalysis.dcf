@@ -5,7 +5,7 @@ account: richmondfc
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 16061455
-bundleId: 11186800
+bundleId: 11539342
 url: https://richmondfc.shinyapps.io/WListAnalysis/
 version: 1
 asMultiple: FALSE

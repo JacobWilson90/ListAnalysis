@@ -17,22 +17,41 @@ library(RPostgres)
 library(DBI)
 library(odbc)
 
+sessionInfo()
+Sys.getenv("ODBCSYSINI")
+Sys.getenv("ODBCINI")
+odbc::odbcListDrivers()
+
+# Create a connection to the database
 if (file.exists(".Renviron")) {
   readRenviron(".Renviron")
 }
 
-# Create a connection to the database
-conn <- dbConnect(odbc(),
-                  Driver = "FreeTDS",
-                  Server = "sd7erbhj7d.database.windows.net",
-                  Database = "aflw_db",
-                  UID = Sys.getenv("DB_USER"),
-                  PWD = Sys.getenv("DB_PASS"),
-                  Port = 1433,
-                  TDS_Version = "8.0",
-                  Encrypt = "yes",
-                  TrustServerCertificate = "no",
-                  Authentication = "SqlPassword"
+cat("\n===== ATTEMPTING DB CONNECTION =====\n")
+
+con <- tryCatch(
+  {
+    DBI::dbConnect(
+      odbc::odbc(),
+      Driver = "FreeTDS",
+      Server = "sd7erbhj7d.database.windows.net",
+      Port = 1433,
+      Database = "aflw_db",
+      UID = Sys.getenv("DB_USER"),
+      PWD = Sys.getenv("DB_PASS"),
+      TDS_Version = "8.0",
+      Encrypt = "yes",
+      TrustServerCertificate = "yes",
+    )
+  },
+  error = function(e) {
+    cat("\n===== ODBC CONNECTION ERROR =====\n")
+    message(conditionMessage(e))
+    message("Class: ", paste(class(e), collapse = ", "))
+    message("Call: ")
+    print(conditionCall(e))
+    NULL
+  }
 )
 
 
