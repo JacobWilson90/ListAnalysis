@@ -33,23 +33,19 @@ con <- tryCatch(
   {
     DBI::dbConnect(
       odbc::odbc(),
-      Driver = "FreeTDS",
-      Server = "sd7erbhj7d.database.windows.net",
-      Port = 1433,
+      Driver  = "ODBC Driver 18 for SQL Server",
+      Server  = "sd7erbhj7d.database.windows.net",
+      Port    = 1433,
       Database = "aflw_db",
-      UID = Sys.getenv("DB_USER"),
-      PWD = Sys.getenv("DB_PASS"),
-      TDS_Version = "8.0",
+      UID     = Sys.getenv("DB_USER"),
+      PWD     = Sys.getenv("DB_PASS"),
       Encrypt = "yes",
-      TrustServerCertificate = "yes",
+      TrustServerCertificate = "no",
+      Timeout = 30
     )
   },
   error = function(e) {
-    cat("\n===== ODBC CONNECTION ERROR =====\n")
-    message(conditionMessage(e))
-    message("Class: ", paste(class(e), collapse = ", "))
-    message("Call: ")
-    print(conditionCall(e))
+    message("Database connection failed: ", e$message)
     NULL
   }
 )
