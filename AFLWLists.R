@@ -33,20 +33,19 @@ con <- tryCatch(
   {
     DBI::dbConnect(
       odbc::odbc(),
-      Driver  = "ODBC Driver 18 for SQL Server",
+      Driver  = "ODBC Driver 17 for SQL Server",  # or 18 if present
       Server  = "sd7erbhj7d.database.windows.net",
-      Port    = 1433,
       Database = "aflw_db",
       UID     = Sys.getenv("DB_USER"),
       PWD     = Sys.getenv("DB_PASS"),
       Encrypt = "yes",
-      TrustServerCertificate = "no",
-      Timeout = 30
+      TrustServerCertificate = "yes",
+      LoginTimeout = 30
     )
   },
   error = function(e) {
     message("Database connection failed: ", e$message)
-    NULL
+    stop(e)   # fail fast so logs are explicit
   }
 )
 
